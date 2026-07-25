@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import { productsDummyData, userDummyData } from "@/lib/assets";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const AppContext = createContext();
