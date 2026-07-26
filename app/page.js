@@ -1,5 +1,6 @@
 import Banner from '@/components/Banner'
 import FeaturedProduct from '@/components/FeaturedProduct'
+import Footer from '@/components/Footer'
 import HeaderSlider from '@/components/HeaderSlider'
 import HomeProducts from '@/components/HomeProducts'
 import Navbar from '@/components/Navbar'
@@ -16,6 +17,7 @@ const Home = () => {
         <Banner />
         <NewsLetter />
       </div>
+      <Footer />
     </div>
   )
 }
