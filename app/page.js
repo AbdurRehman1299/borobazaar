@@ -3,6 +3,7 @@ import FeaturedProduct from '@/components/FeaturedProduct'
 import HeaderSlider from '@/components/HeaderSlider'
 import HomeProducts from '@/components/HomeProducts'
 import Navbar from '@/components/Navbar'
+import NewsLetter from '@/components/NewsLetter'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
         <HomeProducts />
         <FeaturedProduct />
         <Banner />
+        <NewsLetter />
       </div>
     </div>
   )
