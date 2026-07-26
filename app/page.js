@@ -1,3 +1,4 @@
+import Banner from '@/components/Banner'
 import FeaturedProduct from '@/components/FeaturedProduct'
 import HeaderSlider from '@/components/HeaderSlider'
 import HomeProducts from '@/components/HomeProducts'
@@ -11,6 +12,7 @@ const Home = () => {
         <HeaderSlider />
         <HomeProducts />
         <FeaturedProduct />
+        <Banner />
       </div>
     </div>
   )
