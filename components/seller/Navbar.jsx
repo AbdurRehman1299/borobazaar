@@ -1,10 +1,12 @@
+"use client";
+
 import { useAppContext } from "@/context/AppContext";
 import { assets } from "@/lib/assets";
 import Image from "next/image";
 
 const Navbar = () => {
   const { router } = useAppContext();
-  
+
   return (
     <section className="flex items-center px-4 md:px-8 py-3 justify-between border-b">
       <Image
