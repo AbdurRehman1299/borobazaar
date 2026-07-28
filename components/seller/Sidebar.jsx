@@ -1,3 +1,5 @@
+"use client";
+
 import { assets } from "@/lib/assets";
 import Image from "next/image";
 import Link from "next/link";
