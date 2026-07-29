@@ -1,11 +1,13 @@
 "use client";
 
+import { useClerk } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
 import { assets } from "@/lib/assets";
 import Image from "next/image";
 
 const Navbar = () => {
   const { router } = useAppContext();
+  const { signOut } = useClerk();
 
   return (
     <section className="flex items-center px-4 md:px-8 py-3 justify-between border-b">
@@ -15,7 +17,10 @@ const Navbar = () => {
         src={assets.logo}
         alt="logo"
       />
-      <button className="bg-gray-600 text-white px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-xs">
+      <button
+        onClick={() => signOut({ redirectUrl: "/" })}
+        className="bg-gray-600 text-white px-5 py-2 sm:px-7 sm:py-2 rounded-full text-xs sm:text-xs"
+      >
         Logout
       </button>
     </section>

@@ -1,3 +1,4 @@
+import {ClerkProvider} from "@clerk/nextjs";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
@@ -17,8 +18,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${outfit.className} antialiased text-gray-700`}>
-        <Toaster />
-        <AppContextProvider>{children}</AppContextProvider>
+        <ClerkProvider>
+          <Toaster />
+          <AppContextProvider>{children}</AppContextProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

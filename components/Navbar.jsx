@@ -1,7 +1,8 @@
 "use client";
 
+import { SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
-import { assets } from "@/lib/assets";
+import { assets, CartIcon } from "@/lib/assets";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -35,17 +36,40 @@ const Navbar = () => {
 
       <ul className="hidden md:flex items-center gap-4">
         <Image className="w-4 h-4" src={assets.search_icon} alt="search-icon" />
-        <button className="flex items-center gap-2 hover:text-gray-900 transition">
-            <Image src={assets.user_icon} alt="user-icon" />
-            Account
-        </button>
+        <Show when="signed-out">
+          <SignInButton>
+            <button className="flex items-center gap-2 hover:text-gray-900 transition">
+              <Image src={assets.user_icon} alt="user-icon" />
+              Sign In
+            </button>
+          </SignInButton>
+          <SignUpButton>
+            <button className="text-sm border px-4 py-1.5 rounded-full hover:bg-gray-100 transition">
+              Sign Up
+            </button>
+          </SignUpButton>
+        </Show>
+        <Show when="signed-in">
+          <UserButton>
+            <UserButton.MenuItems>
+              <UserButton.Action label="Cart" labelIcon={<CartIcon />} onClick={() => router.push("/cart")} />
+            </UserButton.MenuItems>
+          </UserButton>
+        </Show>
       </ul>
 
       <div className="flex items-center md:hidden gap-3">
         {isSeller && <button onClick={() => router.push("/seller")} className="text-xs border px-4 py-1.5 rounded-full">Seller Dashboard</button>}
-        <button className="flex items-center gap-2 hover:text-gray-900 transition">
-            <Image src={assets.user_icon} alt="user-icon" />
-        </button>
+        <Show when="signed-out">
+          <SignInButton>
+            <button className="flex items-center gap-2 hover:text-gray-900 transition">
+              <Image src={assets.user_icon} alt="user-icon" />
+            </button>
+          </SignInButton>
+        </Show>
+        <Show when="signed-in">
+          <UserButton />
+        </Show>
       </div>
     </nav>
   );

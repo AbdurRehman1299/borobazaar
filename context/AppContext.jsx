@@ -1,5 +1,6 @@
 'use client';
-import { productsDummyData, userDummyData } from "@/lib/assets";
+import { useUser } from "@clerk/nextjs";
+import { productsDummyData } from "@/lib/assets";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -12,19 +13,23 @@ export const useAppContext = () => {
 export const AppContextProvider = (props) => {
     const currency = process.env.NEXT_PUBLIC_CURRENCY;
     const router = useRouter();
+    const { user } = useUser();
 
     const [products, setProducts] = useState([]);
-    const [userData, setUserData] = useState(false);
-    const [isSeller, setIsSeller] = useState(true);
+    const [isSeller, setIsSeller] = useState(false);
     const [cartItems, setCartItems] = useState({});
 
     const fetchProductData = async () => {
         setProducts(productsDummyData);
     }
 
-    const fetchUserData = async () => {
-        setUserData(userDummyData);
-    }
+    useEffect(() => {
+        if (user) {
+            setIsSeller(user.publicMetadata?.role === "seller");
+        } else {
+            setIsSeller(false);
+        }
+    }, [user]);
 
     const addToCart = async (itemId) => {
         let cartData = structuredClone(cartItems);
@@ -80,18 +85,14 @@ export const AppContextProvider = (props) => {
         fetchProductData();
     }, []);
 
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-
     const value = {
         currency, router,
         isSeller, setIsSeller,
-        userData, fetchUserData,
         products, fetchProductData,
         cartItems, setCartItems,
         addToCart, updateCartQuantity,
-        getCartCount, getCartAmount
+        getCartCount, getCartAmount,
+        user
     }
 
     return (
