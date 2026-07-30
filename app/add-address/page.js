@@ -1,12 +1,17 @@
-'use client';
+"use client";
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { useAppContext } from "@/context/AppContext";
 import { assets } from "@/lib/assets";
+import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const AddAddress = () => {
+  const { router, getToken } = useAppContext();
+
   const [address, setAddress] = useState({
     fullName: "",
     phoneNumber: "",
@@ -18,6 +23,25 @@ const AddAddress = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    try {
+      const token = await getToken();
+
+      const { data } = await axios.post(
+        "/api/user/add-address",
+        { address },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      if (data.success) {
+        toast.success(data.message);
+        router.push("/cart");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -59,7 +83,6 @@ const AddAddress = () => {
             />
             <textarea
               className="px-2 py-2.5 focus:border-green-500 transition border border-gray-500/30 rounded outline-none w-full text-gray-500 resize-none"
-              type="text"
               rows={4}
               placeholder="Address (Area and Street)"
               onChange={(e) => setAddress({ ...address, area: e.target.value })}
