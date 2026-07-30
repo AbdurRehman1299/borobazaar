@@ -17,21 +17,18 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="w-1/2 flex items-center jusitfy-start md:jusitfy-center">
+        <div className="w-1 flex items-center jusitfy-start md:jusitfy-center">
           <div>
             <h2 className="font-medium text-gray-900 mb-5">Company</h2>
             <ul className="text-sm space-y-2">
-              <Link href={"#"} className="hover:underline transition">
+              <Link href={"/"} className="hover:underline transition">
                 <li>Home</li>
               </Link>
-              <Link href={"#"} className="hover:underline transition">
+              <Link href={"/about"} className="hover:underline transition">
                 <li>About us</li>
               </Link>
-              <Link href={"#"} className="hover:underline transition">
+              <Link href={"/contact"} className="hover:underline transition">
                 <li>Contact</li>
-              </Link>
-              <Link href={"#"} className="hover:underline transition">
-                <li>Privacy policy</li>
               </Link>
             </ul>
           </div>

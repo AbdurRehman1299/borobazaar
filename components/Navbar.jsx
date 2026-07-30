@@ -2,7 +2,7 @@
 
 import { SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
 import { useAppContext } from "@/context/AppContext";
-import { assets, BagIcon, BoxIcon, CartIcon, HomeIcon } from "@/lib/assets";
+import { assets, BagIcon, BoxIcon, CallIcon, CartIcon, HomeIcon } from "@/lib/assets";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,10 +24,10 @@ const Navbar = () => {
         <Link href={"/all-products"} className="hover:text-gray-900 transition">
           Shop
         </Link>
-        <Link href={"/"} className="hover:text-gray-900 transition">
+        <Link href={"/about"} className="hover:text-gray-900 transition">
           About Us
         </Link>
-        <Link href={"/"} className="hover:text-gray-900 transition">
+        <Link href={"/contact"} className="hover:text-gray-900 transition">
           Contact
         </Link>
 
@@ -103,9 +103,16 @@ const Navbar = () => {
             </UserButton.MenuItems>
             <UserButton.MenuItems>
               <UserButton.Action
-                label="Products"
+                label="Shop"
                 labelIcon={<BoxIcon />}
                 onClick={() => router.push("/all-products")}
+              />
+            </UserButton.MenuItems>
+            <UserButton.MenuItems>
+              <UserButton.Action
+                label="Contact"
+                labelIcon={<CallIcon />}
+                onClick={() => router.push("/contact")}
               />
             </UserButton.MenuItems>
             <UserButton.MenuItems>
