@@ -1,6 +1,7 @@
 import User from "@/models/User";
 import { Inngest } from "inngest";
 import connectDB from "./db";
+import Order from "@/models/Order";
 
 export const inngest = new Inngest({ id: "borobazaar" });
 
@@ -44,12 +45,38 @@ export const syncUserUpdation = inngest.createFunction(
 
 // Inngest Function to delete user data from database
 export const syncUserDeletion = inngest.createFunction(
-    { id: "delete-user-with-clerk", triggers: { event: "clerk/user.deleted" } },
+  { id: "delete-user-with-clerk", triggers: { event: "clerk/user.deleted" } },
 
-    async ({ event }) => {
-        const { id } = event.data;
+  async ({ event }) => {
+    const { id } = event.data;
 
-        await connectDB();
-        await User.findByIdAndDelete(id);
-    }
+    await connectDB();
+    await User.findByIdAndDelete(id);
+  },
+);
+
+// Ingest Function to create orders
+export const createUserOrder = inngest.createFunction(
+  {
+    id: "create-user-order",
+    batchEvents: { maxSize: 25, timeout: "5s" },
+    triggers: { event: "order/created" },
+  },
+
+  async ({ events }) => {
+    const orders = events.map((event) => {
+      return {
+        userId: event.data.userId,
+        items: event.data.items,
+        amount: event.data.amount,
+        address: event.data.address,
+        date: event.data.date,
+      };
+    });
+
+    await connectDB();
+    await Order.insertMany(orders);
+
+    return { success: true, processed: orders.length };
+  },
 );
