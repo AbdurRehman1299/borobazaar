@@ -40,6 +40,8 @@ const Product = () => {
                 className="w-full h-auto object-cover mix-blend-multiply"
                 width={1280}
                 height={720}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
               />
             </div>
 
@@ -49,6 +51,7 @@ const Product = () => {
                   key={index}
                   onClick={() => setMainImage(image)}
                   className="cursor-pointer rounded-lg overflow-hidden bg-gray-500/10"
+                  sizes="15vw"
                 >
                   <Image
                     src={image}

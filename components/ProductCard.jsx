@@ -1,6 +1,7 @@
 import { useAppContext } from "@/context/AppContext";
 import { assets } from "@/lib/assets";
 import Image from "next/image";
+import { memo } from "react";
 
 const ProductCard = ({ product }) => {
   const { currency, router } = useAppContext();
@@ -20,6 +21,8 @@ const ProductCard = ({ product }) => {
           className="group-hover:scale-105 transition object-cover w-4/5 h-4/5 md:w-full md:h-full"
           width={800}
           height={800}
+          sizes="(max-width: 768px) 50vw, 25vw"
+          quality={75}
         />
         <button className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md">
           <Image className="h-3 w-3" src={assets.heart_icon} alt="heart-icon" />
@@ -61,4 +64,4 @@ const ProductCard = ({ product }) => {
   );
 };
 
-export default ProductCard;
+export default memo(ProductCard);

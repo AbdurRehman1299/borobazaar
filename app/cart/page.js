@@ -26,7 +26,7 @@ const Cart = () => {
               Your <span className="font-medium text-green-600">Cart</span>
             </p>
             <p className="text-lg md:text-xl text-gray-500/80">
-              {getCartCount()} Items
+              {getCartCount} Items
             </p>
           </div>
 
@@ -68,6 +68,8 @@ const Cart = () => {
                               className="w-16 h-auto object-cover mix-blend-multiply"
                               width={1280}
                               height={720}
+                              sizes="64px"
+                              quality={60}
                             />
                           </div>
                           <button

@@ -8,9 +8,16 @@ export async function GET(request) {
     const { userId } = getAuth(request);
 
     await connectDB();
-    const addresses = await Address.find({ userId });
+    const addresses = await Address.find({ userId }).lean();
 
-    return NextResponse.json({ success: true, addresses });
+    return NextResponse.json(
+      { success: true, addresses },
+      {
+        headers: {
+          "Cache-Control": "private, max-age=30, stale-while-revalidate=60",
+        },
+      },
+    );
   } catch (error) {
     return NextResponse.json({ success: false, message: error.message });
   }

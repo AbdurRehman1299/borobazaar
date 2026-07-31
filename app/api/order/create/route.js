@@ -13,10 +13,20 @@ export async function POST(request) {
       return NextResponse.json({ success: false, message: "Invalid data" });
     }
 
-    // Calculate ammount of items
-    const amount = await items.reduce(async (acc, item) => {
-      const product = await Product.findById(item.product);
-      return await acc + product.offerPrice * item.quantity;
+    // Fetch all products in ONE query instead of one per item
+    const productIds = items.map((item) => item.product);
+    const products = await Product.find({ _id: { $in: productIds } }).lean();
+
+    const productMap = {};
+    for (const product of products) {
+      productMap[product._id.toString()] = product;
+    }
+
+    // Calculate amount in-memory (no DB calls)
+    const amount = items.reduce((total, item) => {
+      const product = productMap[item.product];
+      if (!product) throw new Error(`Product not found: ${item.product}`);
+      return total + product.offerPrice * item.quantity;
     }, 0);
 
     await inngest.send({
@@ -31,10 +41,7 @@ export async function POST(request) {
     });
 
     // Clear user cart
-    const user = await User.findById(userId);
-    user.cartItems = {};
-
-    await user.save();
+    await User.findByIdAndUpdate(userId, { cartItems: {} });
 
     return NextResponse.json({ success: true, message: "Order Placed" });
   } catch (error) {

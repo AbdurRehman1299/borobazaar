@@ -1,7 +1,7 @@
 "use client";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -112,31 +112,24 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  const getCartCount = () => {
-    let totalCount = 0;
+  const getCartCount = useMemo(() => {
+    return Object.values(cartItems).reduce(
+      (total, qty) => total + (qty > 0 ? qty : 0),
+      0,
+    );
+  }, [cartItems]);
 
-    for (const items in cartItems) {
-      if (cartItems[items] > 0) {
-        totalCount += cartItems[items];
+  const getCartAmount = useMemo(() => {
+    const amount = Object.keys(cartItems).reduce((total, itemId) => {
+      const item = products.find((product) => product._id === itemId);
+      if (item && cartItems[itemId] > 0) {
+        total += item.offerPrice * cartItems[itemId];
       }
-    }
+      return total;
+    }, 0);
 
-    return totalCount;
-  };
-
-  const getCartAmount = () => {
-    let totalAmount = 0;
-
-    for (const items in cartItems) {
-      let itemInfo = products.find((product) => product._id === items);
-
-      if (cartItems[items] > 0) {
-        totalAmount += itemInfo.offerPrice * cartItems[items];
-      }
-    }
-
-    return Math.floor(totalAmount * 100) / 100;
-  };
+    return Math.floor(amount * 100) / 100;
+  }, [cartItems, products]);
 
   useEffect(() => {
     fetchProductData();
