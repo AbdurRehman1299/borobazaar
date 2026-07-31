@@ -14,6 +14,8 @@ const orderSchema = new mongoose.Schema({
   date: { type: Number, required: true },
 });
 
+orderSchema.index({ userId: 1, date: -1 });
+
 const Order = mongoose.models.order || mongoose.model("order", orderSchema);
 
 export default Order;

@@ -11,6 +11,8 @@ const productSchema = new mongoose.Schema({
   date: { type: Number, required: true },
 });
 
+productSchema.index({ date: -1 });
+
 const Product =
   mongoose.models.product || mongoose.model("product", productSchema);
 

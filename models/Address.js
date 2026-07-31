@@ -10,6 +10,8 @@ const addressSchema = new mongoose.Schema({
   state: { type: String, required: true },
 });
 
+addressSchema.index({ userId: 1 });
+
 const Address =
   mongoose.models.address || mongoose.model("address", addressSchema);
 

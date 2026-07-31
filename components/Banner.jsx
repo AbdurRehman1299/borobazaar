@@ -8,6 +8,9 @@ const Banner = () => {
         className="max-w-56"
         src={assets.jbl_soundbox_image}
         alt="jbl_soundbox_image"
+        width={669}
+        height={783}
+        sizes="224px"
       />
       <div className="flex flex-col items-center justify-center text-center space-y-2 px-4 md:px-0">
         <h2 className="text-2xl md:text-3xl font-semibold max-w-72.5">
@@ -29,11 +32,17 @@ const Banner = () => {
         className="hidden md:block max-w-80"
         src={assets.md_controller_image}
         alt="md_controller_image"
+        width={1173}
+        height={1110}
+        sizes="320px"
       />
       <Image
         className="md:hidden"
         src={assets.sm_controller_image}
         alt="sm_controller_image"
+        width={1011}
+        height={1368}
+        sizes="100vw"
       />
     </div>
   );

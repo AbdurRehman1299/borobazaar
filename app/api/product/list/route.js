@@ -5,9 +5,22 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     await connectDB();
-    const products = await Product.find({});
+    const products = await Product.find(
+      {},
+      "name description price offerPrice image category data",
+    )
+      .lean()
+      .sort({ date: -1 });
 
-    return NextResponse.json({ success: true, products });
+    return NextResponse.json(
+      { success: true, products },
+      {
+        headers: {
+          "Cache-Control":
+            "public, max-age=60, s-maxage=300, stale-while-revalidate=60",
+        },
+      },
+    );
   } catch (error) {
     return NextResponse.json({ success: false, message: error.message });
   }

@@ -15,7 +15,14 @@ export async function GET(request) {
       return NextResponse.json({ success: false, message: "User not found" });
     }
 
-    return NextResponse.json({ success: true, user });
+    return NextResponse.json(
+      { success: true, user },
+      {
+        headers: {
+          "Cache-Control": "private, max-age=30, stale-while-revalidate=60",
+        },
+      },
+    );
   } catch (error) {
     return NextResponse.json({ success: false, message: error.message });
   }

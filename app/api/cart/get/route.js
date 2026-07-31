@@ -8,11 +8,18 @@ export async function GET(request) {
     const { userId } = getAuth(request);
 
     await connectDB();
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).lean();
 
     const { cartItems } = user;
 
-    return NextResponse.json({ success: true, cartItems });
+    return NextResponse.json(
+      { success: true, cartItems },
+      {
+        headers: {
+          "Cache-Control": "private, max-age=30, stale-while-revalidate=60",
+        },
+      },
+    );
   } catch (error) {
     return NextResponse.json({ success: false, message: error.message });
   }
