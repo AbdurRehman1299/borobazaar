@@ -22,7 +22,7 @@ export async function GET(request) {
       .populate([
         { path: "address", model: Address },
         { path: "items.product", model: Product },
-      ]);
+      ]).lean();
 
     return NextResponse.json({ success: true, orders });
   } catch (error) {
