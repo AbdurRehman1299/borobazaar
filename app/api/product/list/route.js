@@ -7,7 +7,7 @@ export async function GET(request) {
     await connectDB();
     const products = await Product.find(
       {},
-      "name description price offerPrice image category data",
+      "name description price offerPrice image category date",
     )
       .lean()
       .sort({ date: -1 });

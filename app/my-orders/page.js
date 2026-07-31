@@ -36,7 +36,10 @@ const MyOrders = () => {
   };
 
   useEffect(() => {
-    if (user) fetchOrders();
+    if (!user) return;
+    fetchOrders();
+    window.addEventListener("focus", fetchOrders);
+    return () => window.removeEventListener("focus", fetchOrders);
   }, [user]);
 
   return (
